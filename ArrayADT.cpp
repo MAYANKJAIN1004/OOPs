@@ -200,6 +200,7 @@ int main()
     cout<<arr<<endl;
     arr.sortArray();
     cout<<arr<<endl;
-
+    cout<<arr.searchItem(30)<<endl;
+    cout<<arr<<endl;
     return 0;
 }
