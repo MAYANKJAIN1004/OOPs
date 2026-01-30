@@ -2,38 +2,46 @@
 using namespace std;
 
 class Integer{
-    int *m_int;
+    int *m_pInt;
 public:
     Integer(){
-        m_int = new int(0);
         cout<<"InSide Integer()\n";
+        m_pInt = new int(0);        
     }
     Integer(int value){
-        m_int = new int(value);
         cout<<"InSide Integer(int i)\n";
+        m_pInt = new int(value);        
     }
-    Integer(Integer &ref){
+    Integer(const Integer &ref){
         cout<<"InSide Integer(Integer &ref)\n";
-        m_int = new int (*ref.m_int);
+        m_pInt = new int (*ref.m_pInt);
+    }
+    Integer(Integer &&obj){
+        cout<<"InSide Integer(Integer &&obj)\n";
+        m_pInt = obj.m_pInt;
+        obj.m_pInt = nullptr;
     }
     ~Integer(){
-        delete m_int;
+        cout<<"InSide ~Integer()\n";
+        delete m_pInt;
     }
-    int GetValue(){
+    int GetValue()const{
         cout<<"InSide GetValue()\n";
-        return *m_int;
+        return *m_pInt;
     }
     void SetValue(int value){
         cout<<"InSide SetValue(int value)\n";
-        *m_int=value;
+        *m_pInt=value;
     }
-    // Integer Add(Integer i1,Integer i2){
-    //     cout<<"InSide Add(Integer i1,Integer i2)\n";
-    //     return i1.GetValue() + i2.GetValue();
-    // }
+    Integer Add(const Integer &i1,const Integer &i2){
+        cout<<"InSide Add(Integer &i1,Integer &i2)\n";
+        Integer temp;
+        temp.SetValue(i1.GetValue() + i2.GetValue());
+        return temp;
+    }
     Integer& operator=(Integer &i){
         cout<<"InSide operator=(Integer i)\n";
-        *m_int = *i.m_int;
+        *m_pInt = *i.m_pInt;
         return *this;
     }
 };
@@ -41,31 +49,35 @@ public:
 int main(){
     cout<<"InSide Main!\n";
 
-    Integer i1;
-    cout<<"i1 : "<<i1.GetValue()<<endl<<endl;
-    i1.SetValue(100);
-    cout<<"i1 : "<<i1.GetValue()<<endl<<endl;
+    Integer a(1),b(3);
+    a.SetValue(a.Add(a,b).GetValue());
+    cout<<"a : "<<a.GetValue()<<endl;
 
-    Integer i2(50);
-    cout<<"i2 : "<<i2.GetValue()<<endl;
-    i2.SetValue(200);
-    cout<<"i2 : "<<i2.GetValue()<<endl<<endl;
+    // Integer i1;
+    // cout<<"i1 : "<<i1.GetValue()<<endl<<endl;
+    // i1.SetValue(100);
+    // cout<<"i1 : "<<i1.GetValue()<<endl<<endl;
 
-    Integer i3 = i2;
-    cout<<"i3 : "<<i3.GetValue()<<endl<<endl;
+    // Integer i2(50);
+    // cout<<"i2 : "<<i2.GetValue()<<endl;
+    // i2.SetValue(200);
+    // cout<<"i2 : "<<i2.GetValue()<<endl<<endl;
 
-    Integer i4(i1);
-    cout<<"i4 : "<<i4.GetValue()<<endl<<endl;
+    // Integer i3 = i2;
+    // cout<<"i3 : "<<i3.GetValue()<<endl<<endl;
 
-    // Integer i5;
-    // cout<<"i5 : "<<i5.GetValue()<<endl;
-    // i5=(i4.Add(i3,i4));
-    // cout<<"i5 : "<<i5.GetValue()<<endl<<endl;
+    // Integer i4(i1);
+    // cout<<"i4 : "<<i4.GetValue()<<endl<<endl;
 
-    Integer i6;
-    i6=i4;
-    cout<<"i6 : "<<i6.GetValue()<<endl<<endl;
-    i4.SetValue(30);
-    cout<<"i6 : "<<i6.GetValue()<<endl<<endl;
+    // // Integer i5;
+    // // cout<<"i5 : "<<i5.GetValue()<<endl;
+    // // i5=(i4.Add(i3,i4));
+    // // cout<<"i5 : "<<i5.GetValue()<<endl<<endl;
+
+    // Integer i6;
+    // i6=i4;
+    // cout<<"i6 : "<<i6.GetValue()<<endl<<endl;
+    // i4.SetValue(30);
+    // cout<<"i6 : "<<i6.GetValue()<<endl<<endl;
     return 0;
 }
