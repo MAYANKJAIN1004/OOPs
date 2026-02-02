@@ -39,11 +39,15 @@ public:
         temp.SetValue(i1.GetValue() + i2.GetValue());
         return temp;
     }
-    // Integer& operator=(Integer &i){
-    //     cout<<"InSide operator=(Integer i)\n";
-    //     *m_pInt = *i.m_pInt;
-    //     return *this;
-    // }
+    Integer& operator=(Integer &&i){
+        cout<<"InSide operator=(Integer &&i)\n";
+        if(this!=&i){
+            delete m_pInt;
+            m_pInt = i.m_pInt;
+            i.m_pInt=nullptr;
+        }
+        return *this;
+    }
     Integer operator+(const Integer &i){
         Integer temp;
         *temp.m_pInt=*m_pInt+*i.m_pInt;
