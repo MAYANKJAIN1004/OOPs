@@ -39,9 +39,35 @@ public:
         temp.SetValue(i1.GetValue() + i2.GetValue());
         return temp;
     }
+    // Integer& operator=(Integer &i){
+    //     cout<<"InSide operator=(Integer i)\n";
+    //     *m_pInt = *i.m_pInt;
+    //     return *this;
+    // }
+    Integer operator+(const Integer &i){
+        Integer temp;
+        *temp.m_pInt=*m_pInt+*i.m_pInt;
+        return temp;
+    }
+    Integer& operator++(){
+        ++(*m_pInt);
+        return *this;
+    }
+    Integer operator++(int){
+        Integer temp(*this);
+        ++(*m_pInt);
+        return temp;
+    }
+    bool operator==(Integer &i){
+        return *m_pInt==*i.m_pInt;
+    }
+
     Integer& operator=(Integer &i){
-        cout<<"InSide operator=(Integer i)\n";
-        *m_pInt = *i.m_pInt;
+        if(this!=&i)
+        {
+            delete m_pInt;
+            m_pInt=new int(*i.m_pInt);
+        }
         return *this;
     }
 };
@@ -49,9 +75,25 @@ public:
 int main(){
     cout<<"InSide Main!\n";
 
-    Integer a(1),b(3);
-    a.SetValue(a.Add(a,b).GetValue());
-    cout<<"a : "<<a.GetValue()<<endl;
+    Integer a(10);
+    Integer b;
+    b=a;
+    cout<<b.GetValue()<<endl;
+
+    // Integer a(1),b(3);
+    // Integer c = a+b;
+    // //++c;
+    // //c++;
+    // cout<<"C : "<<c++.GetValue()<<endl;
+    // cout<<"C : "<<c.GetValue()<<endl;
+
+    // if(a==b)
+    //     cout<<"Equal!\n";
+    // else
+    //     cout<<"Not Equal!\n";
+
+    // a.SetValue(a.Add(a,b).GetValue());
+    // cout<<"a : "<<a.GetValue()<<endl;
 
     // Integer i1;
     // cout<<"i1 : "<<i1.GetValue()<<endl<<endl;
